@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Time Clock</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    overflow:hidden;
+}
+
+/* Glow background effect */
+body::before{
+    content:'';
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle,#00f5ff55,transparent 70%);
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+.clock-container{
+    position:relative;
+    text-align:center;
+    padding:40px 60px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    box-shadow:0 0 40px #00f5ff33;
+}
+
+#time{
+    font-size:4rem;
+    color:#00f5ff;
+    text-shadow:0 0 20px #00f5ff;
+}
+
+#date{
+    margin-top:15px;
+    font-size:1.2rem;
+    color:#ffffffcc;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="clock-container">
+    <div id="time">00:00:00</div>
+    <div id="date">Loading...</div>
+</div>
+
+<script>
+function updateClock(){
+    const now = new Date();
+
+    let hours = now.getHours().toString().padStart(2,'0');
+    let minutes = now.getMinutes().toString().padStart(2,'0');
+    let seconds = now.getSeconds().toString().padStart(2,'0');
+
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    document.getElementById("time").innerText = timeString;
+
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+
+    document.getElementById("date").innerText = 
+        now.toLocaleDateString('id-ID', options);
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
